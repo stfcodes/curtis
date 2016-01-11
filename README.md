@@ -4,7 +4,7 @@ Extremely light wrapper around ncurses-ruby.
 
 ## Installation
 
-Install it yourself as or use it in your gemfile as `gem curtis`:
+Use the GitHub url in your Gemfile for now. RubyGems coming soon.
 
 ## Usage
 
