@@ -1,4 +1,3 @@
-
 require 'curtis/version'
 require 'ncurses'
 require 'curtis/base_view'
@@ -15,8 +14,8 @@ module Curtis
 
     def show(**options)
       screen = Ncurses.initscr
-      Ncurses.cbreak
-      Ncurses.noecho
+      Ncurses.cbreak if config.cbreak
+      Ncurses.noecho if config.noecho
       Ncurses.curs_set(0) if config.hide_cursor
       screen.refresh
       yield BaseView.new(screen)
@@ -26,9 +25,13 @@ module Curtis
   end
 
   class Configuration
+    attr_accessor :cbreak
+    attr_accessor :noecho
     attr_accessor :hide_cursor
 
-    def initializes
+    def initialize
+      @cbreak      = true
+      @noecho      = true
       @hide_cursor = false
     end
   end
