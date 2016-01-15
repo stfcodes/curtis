@@ -1,7 +1,9 @@
-require 'curtis/version'
 require 'ncurses'
+
+require 'curtis/version'
 require 'curtis/base_view'
 require 'curtis/view'
+require 'curtis/keyboard'
 
 module Curtis
   class << self

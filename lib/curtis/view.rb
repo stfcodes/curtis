@@ -16,5 +16,18 @@ module Curtis
       ncurses_window = Ncurses::WINDOW.new(h, w, r, c)
       super ncurses_window
     end
+
+    def render(every: 0.04)
+      refresh unless block_given?
+
+      Thread.new do
+        loop do
+          yield self
+          refresh
+          sleep every
+        end
+      end
+    end
+
   end
 end
