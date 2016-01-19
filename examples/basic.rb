@@ -13,8 +13,8 @@ end
 # The #show method is the starting point. `screen` here is the main view
 # Other views are created inside this main view (BaseView)
 Curtis.show do |screen|
-  # #justify_center is a utility method for centering text inside a window
-  screen.justify_center 'Welcome to Curtis. A simple ncurses-ruby wrapper.'
+  # #justify is a utility method for centering text inside a window
+  screen.justify 'Welcome to Curtis. A simple ncurses-ruby wrapper.'
 
   # Return the width and height of the main view, in rows and columns.
   half_w = screen.width / 2
@@ -50,7 +50,7 @@ Curtis.show do |screen|
   lower_right.refresh
 
   screen.move screen.height / 4, 0
-  screen.justify_center 'Press any key to [Q]uit!'
+  screen.justify 'Press any key to [Q]uit!'
 
   # Wait for any keypress before stopping
   screen.getch

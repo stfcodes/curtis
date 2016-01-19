@@ -8,8 +8,8 @@ module Curtis
     def initialize(**args)
       yield self if block_given?
 
-      h = args[:height] || @height
-      w = args[:width]  || @width
+      h = args[:height] || @height  || 0
+      w = args[:width]  || @width   || 0
       r = args[:row]    || @row     || 0
       c = args[:col]    || @col     || 0
 
@@ -18,9 +18,10 @@ module Curtis
     end
 
     def render(every: 0.04)
+      clear_thread!
       refresh unless block_given?
 
-      Thread.new do
+      @thread = Thread.new do
         loop do
           yield self
           refresh
@@ -29,5 +30,20 @@ module Curtis
       end
     end
 
+    def clear
+      clear_thread!
+      super
+    end
+
+    private
+
+    def clear_thread!
+      @thread.terminate if running_thread?
+      @thread = nil unless @thread.nil?
+    end
+
+    def running_thread?
+      !@thread.nil? && @thread.alive?
+    end
   end
 end

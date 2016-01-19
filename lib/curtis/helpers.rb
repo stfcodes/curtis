@@ -26,18 +26,16 @@ module Curtis
     end
 
     # Assumes cursor is already positioned on the row
-    def justify_center(text)
-      column = (width - text.size) / 2
+    def justify(text, align: :center)
+      column = case align
+               when :center then (width - text.size) / 2
+               when :right then (width - text.size)
+               end
       window.mvaddstr row, column, text
     end
 
-    def justify_right(text)
-      column = (width - text.size)
-      window.mvaddstr row, column, text
-    end
-
-    def box(v: vertical, h: horizontal)
-      super vertical.ord, horizontal.ord
+    def box(ns: 0, we: 0)
+      super ns.ord, we.ord
     end
 
     def border(n: 0, ne: 0, e: 0, se: 0, s: 0, sw: 0, w: 0, nw: 0)
