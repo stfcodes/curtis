@@ -33,21 +33,9 @@ module Curtis
       window
     end
 
-    def cursor=(*args)
-      line, column = args.flatten.first, args.flatten.last
-      window.move(line, column)
-    end
-
-    def size=(*args)
-      lines, columns = args.flatten.first, args.flatten.last
-      window.resize(lines, columns)
-    end
-
-    def position=(*args)
-      line, column = args.flatten.first, args.flatten.last
-      window.clear
-      window.refresh
-      window.mvwin(line, column)
+    def cursor=(*coords)
+      line, column = coords.flatten.first, coords.flatten.last
+      window.move(coords.flatten.first)
     end
   end
 end

@@ -11,8 +11,17 @@ module Curtis
         line_and_column.first
       end
 
+      def line=(new_line, reset_column: true)
+        new_column = reset_column ? 0 : column
+        window.move new_line, new_column
+      end
+
       def column
         line_and_column.last
+      end
+
+      def column=(new_column)
+        window.move line, new_column
       end
 
       def rewind!

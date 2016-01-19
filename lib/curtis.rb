@@ -38,7 +38,7 @@ module Curtis
     def initialize
       @cbreak      = true
       @noecho      = true
-      @hide_cursor = false
+      @hide_cursor = true
     end
   end
 end
