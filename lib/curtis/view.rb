@@ -3,18 +3,22 @@ require 'curtis/base_view'
 module Curtis
   class View < BaseView
 
-    attr_writer :height, :width, :row, :col
+    attr_writer :lines, :columns, :line, :column
 
     def initialize(**args)
       yield self if block_given?
 
-      h = args[:height] || @height  || 0
-      w = args[:width]  || @width   || 0
-      r = args[:row]    || @row     || 0
-      c = args[:col]    || @col     || 0
+      h = args[:lines]    || @lines     || parent.size.lines
+      w = args[:columns]  || @columns   || parent.size.columns
+      r = args[:line]     || @line      || 0
+      c = args[:column]   || @column    || 0
 
       ncurses_window = Ncurses::WINDOW.new(h, w, r, c)
       super ncurses_window
+    end
+
+    def parent
+      @parent ||= self.class.superclass.new(Ncurses.stdscr)
     end
 
     def render(every: 0.04)

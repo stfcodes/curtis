@@ -15,14 +15,18 @@ module Curtis
     alias_method :configure, :config
 
     def show(**options)
-      screen = Ncurses.initscr
+      Ncurses.initscr
       Ncurses.cbreak if config.cbreak
       Ncurses.noecho if config.noecho
       Ncurses.curs_set(0) if config.hide_cursor
       screen.refresh
-      yield BaseView.new(screen)
+      yield BaseView.new
     ensure
       Ncurses.endwin
+    end
+
+    def screen
+      Ncurses.stdscr
     end
   end
 
