@@ -1,10 +1,10 @@
 module Curtis
   class BaseView
     class Position
-      attr_reader :window
+      attr_reader :view
 
-      def initialize(window)
-        @window = window
+      def initialize(view)
+        @view = view
       end
 
       def line
@@ -15,9 +15,13 @@ module Curtis
         line_and_column.last
       end
 
+      def bottom
+
+      end
+
       def line_and_column
         line, column = [], []
-        window.getbegyx(line, column)
+        view.window.getbegyx(line, column)
         [line.first, column.first]
       end
 

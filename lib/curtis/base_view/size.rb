@@ -5,10 +5,10 @@ module Curtis
     class Size
       using NumericRefinements
 
-      attr_reader :window
+      attr_reader :view
 
-      def initialize(window)
-        @window = window
+      def initialize(view)
+        @view = view
       end
 
       def lines(p: nil)
@@ -23,7 +23,7 @@ module Curtis
 
       def lines_and_columns
         lines, columns = [], []
-        window.getmaxyx(lines, columns)
+        view.window.getmaxyx(lines, columns)
         [lines.first, columns.first]
       end
 

@@ -43,7 +43,7 @@ module Curtis
       window.refresh
     end
 
-    def move_cursor(line, column)
+    def move_cursor(line: 0, column: 0)
       window.move(line, column)
     end
   end
