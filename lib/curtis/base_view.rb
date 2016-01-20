@@ -1,13 +1,19 @@
+require 'forwardable'
 require 'curtis/base_view/all'
 require 'curtis/helpers/all'
 
 module Curtis
   class BaseView
+    extend Forwardable
+
     attr_reader :cursor, :size, :position
     attr_reader :window
 
     include Helpers::Text
     include Helpers::Border
+
+    def_delegators :size,     :lines, :columns
+    def_delegators :position, :line,  :column
 
     def initialize(ncurses_window = Ncurses.stdscr)
       unless ncurses_window.kind_of? Ncurses::WINDOW

@@ -4,9 +4,9 @@ module Curtis
   class View < BaseView
     attr_writer :lines, :line, :columns, :column
 
-    def initialize(lines: parent.size.lines, columns: parent.size.columns, line: 0, column: 0)
-      @lines    = lines
-      @columns  = columns
+    def initialize(lines: nil, columns: nil, line: 0, column: 0)
+      @lines    = lines   || parent.size.lines
+      @columns  = columns || parent.size.columns
       @line     = line
       @column   = column
 
@@ -22,12 +22,12 @@ module Curtis
 
     def render(every: 0.04)
       clear_thread!
-      refresh unless block_given?
+      window.refresh unless block_given?
 
       @thread = Thread.new do
         loop do
           yield self
-          refresh
+          window.refresh
           sleep every
         end
       end
@@ -35,7 +35,7 @@ module Curtis
 
     def clear
       clear_thread!
-      super
+      window.clear
     end
 
     def resize(lines, columns)
