@@ -3,10 +3,10 @@ module Curtis
     module Text
       def justify(text, align: :center)
         column = case align
-                 when :center then (width - text.size) / 2
-                 when :right then (width - text.size)
+                 when :center then (size.columns - text.size) / 2
+                 when :right then (size.columns - text.size)
                  end
-        window.mvaddstr row, column, text
+        window.mvaddstr cursor.line, column, text
       end
     end
   end
