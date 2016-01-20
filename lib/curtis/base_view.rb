@@ -33,9 +33,8 @@ module Curtis
       window
     end
 
-    def cursor=(*coords)
-      line, column = coords.flatten.first, coords.flatten.last
-      window.move(coords.flatten.first)
+    def move_cursor(line, column)
+      window.move(line, column)
     end
   end
 end

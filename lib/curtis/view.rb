@@ -1,16 +1,14 @@
 require 'curtis/base_view'
-require 'curtis/refinements/all'
 
 module Curtis
   class View < BaseView
-    using StringRefinements
-    using NumericRefinements
+    attr_writer :lines, :line, :columns, :column
 
     def initialize(lines: parent.size.lines, columns: parent.size.columns, line: 0, column: 0)
-      self.lines    = lines
-      self.columns  = columns
-      self.line     = line
-      self.column   = column
+      @lines    = lines
+      @columns  = columns
+      @line     = line
+      @column   = column
 
       yield self if block_given?
 
@@ -41,31 +39,11 @@ module Curtis
     end
 
     def resize(lines, columns)
-      lines   = handle_relative(lines, total: parent.size.lines)
-      columns = handle_relative(columns, total: parent.size.columns)
       window.resize(lines, columns)
     end
 
-    def move(line, column)
-      line   = handle_relative(line, total: parent.size.lines)
-      column = handle_relative(column, total: parent.size.columns)
+    def reposition(line, column)
       window.mvwin(line, column)
-    end
-
-    def line=(value)
-      @line = handle_relative(value, total: parent.size.lines)
-    end
-
-    def lines=(value)
-      @lines = handle_relative(value, total: parent.size.lines)
-    end
-
-    def column=(value)
-      @column = handle_relative(value, total: parent.size.columns)
-    end
-
-    def columns=(value)
-      @columns = handle_relative(value, total: parent.size.columns)
     end
 
     private
@@ -77,11 +55,6 @@ module Curtis
 
     def running_thread?
       !@thread.nil? && @thread.alive?
-    end
-
-    def handle_relative(value, total:)
-      return value unless value.relative?
-      value.relative.percent_of(total)
     end
   end
 end
