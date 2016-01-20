@@ -39,6 +39,10 @@ module Curtis
       window
     end
 
+    def render
+      window.refresh
+    end
+
     def move_cursor(line, column)
       window.move(line, column)
     end

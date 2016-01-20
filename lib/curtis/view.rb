@@ -4,16 +4,15 @@ module Curtis
   class View < BaseView
     attr_writer :lines, :line, :columns, :column
 
-    def initialize(lines: nil, columns: nil, line: 0, column: 0)
-      @lines    = lines   || parent.size.lines
-      @columns  = columns || parent.size.columns
-      @line     = line
-      @column   = column
+    def initialize(**opts)
+      @lines     = opts[:lines]   || -> { parent.size.lines }
+      @columns   = opts[:columns] || -> { parent.size.columns }
+      @line      = opts[:line]    || 0
+      @column    = opts[:column]  || 0
 
       yield self if block_given?
 
-      ncurses_window = Ncurses::WINDOW.new(@lines, @columns, @line, @column)
-      super ncurses_window
+      super Ncurses::WINDOW.new(*computed_dimensions, *computed_coordinates)
     end
 
     def parent
@@ -38,15 +37,39 @@ module Curtis
       window.clear
     end
 
-    def resize(lines, columns)
-      window.resize(lines, columns)
+    def resize(lines: nil, columns: nil)
+      @lines   = lines   if lines
+      @columns = columns if columns
+      window.resize(*computed_dimensions)
     end
 
-    def reposition(line, column)
-      window.mvwin(line, column)
+    def reposition(line: nil, column: nil)
+      @line   = line   if line
+      @column = column if column
+      window.mvwin(*computed_coordinates)
     end
 
     private
+
+    def dimensions
+      [@lines, @columns]
+    end
+
+    def coordinates
+      [@line, @column]
+    end
+
+    def computed_dimensions
+      dimensions.map do |d|
+        d.respond_to?(:call) ? d.call : d
+      end
+    end
+
+    def computed_coordinates
+      coordinates.map do |d|
+        d.respond_to?(:call) ? d.call : d
+      end
+    end
 
     def clear_thread!
       @thread.terminate if running_thread?
