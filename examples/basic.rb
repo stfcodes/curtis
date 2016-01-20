@@ -1,57 +1,46 @@
-#!/usr/bin/env ruby
-require 'bundler/setup'
 require 'curtis'
 
-# Configure Curtis with a block
-Curtis.configure do |config|
-  config.hide_cursor = true
-end
-
-# Or by passing the exact configuration option
-# Curtis.config.hide_cursor = true
-
-# The #show method is the starting point. `screen` here is the main view
-# Other views are created inside this main view (BaseView)
+# The #show method is the starting point.
+# `screen` here is the standard screen, and is the #parent of other views.
 Curtis.show do |screen|
-  # #justify is a utility method for centering text inside a window
   screen.justify 'Welcome to Curtis. A simple ncurses-ruby wrapper.'
+  screen.render
 
-  # Return the width and height of the main view, in rows and columns.
-  half_w = screen.width / 2
-  half_h = screen.height / 2
-
-  # Initialize a new View via keyword arguments
-  # `width` and `height` are mandatory
-  # `row` and `col` default to zero
-  lower_left = Curtis::View.new(height: half_h, width: half_w, row: half_h)
+  # Initialize a new View via keyword arguments.
+  # All attributes are optional and can be set at a later time.
+  lower_left = Curtis::View.new(lines: screen.lines / 2, columns: screen.columns / 2, line: screen.lines / 2)
 
   # Fill the lower_left view with the letter 'L'
-  0.upto lower_left.height do |row|
-    lower_left.mvaddstr row, 0, 'L' * lower_left.width
+  0.upto lower_left.lines do |line|
+    lower_left.move_cursor line: line
+    lower_left.addstr 'L' * lower_left.columns
   end
 
   # Actually show the contents of `lower_left`
-  lower_left.refresh
+  lower_left.render
 
-  # Initialize a new View via block
+  # Initialize a new View via block, and using fancy percentages
   lower_right = Curtis::View.new do |v|
-    v.height  = lower_left.height
-    v.width   = lower_left.width
-    v.row     = screen.height / 2
-    v.col     = screen.width / 2
+    v.lines   = v.parent.lines(p: 50)
+    v.columns = v.parent.columns(p: 50)
+    v.line    = v.parent.lines(p: 50)
+    v.column  = v.parent.columns(p: 50)
   end
 
   # Fill the `lower_right` view with the letter 'R'
-  0.upto lower_right.height do |row|
-    lower_right.mvaddstr row, 0, 'R' * lower_right.width
+  0.upto lower_right.lines do |line|
+    lower_right.move_cursor line: line
+    lower_right.addstr 'R' * lower_right.columns
   end
 
   # Actually show the contents of `lower_right`
-  lower_right.refresh
+  lower_right.render
 
-  screen.move screen.height / 4, 0
-  screen.justify 'Press any key to [Q]uit!'
+  screen.move_cursor line: screen.lines(p: 25)
+  screen.justify '[Q]uit!'
 
-  # Wait for any keypress before stopping
-  screen.getch
+  # Press 'q' to stop the input loop
+  Curtis::Keyboard.input do |key|
+    break if key == 'q'
+  end
 end
