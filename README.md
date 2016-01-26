@@ -16,7 +16,7 @@ require 'curtis'
 # The #show method is the starting point.
 # `screen` here is the standard screen, and is the #parent of other views.
 Curtis.show do |screen|
-  screen.justify 'Welcome to Curtis. A simple ncurses-ruby wrapper.'
+  screen.puts 'Welcome to Curtis. A simple ncurses-ruby wrapper.', h: :center
   screen.render
 
   # Initialize a new View via keyword arguments.
@@ -50,7 +50,7 @@ Curtis.show do |screen|
   lower_right.render
 
   screen.move_cursor line: screen.lines / 4
-  screen.justify '[Q]uit!'
+  screen.puts '[Q]uit!', h: :center
 
   # Press 'q' to stop the input loop
   Curtis::Input.get do |key|

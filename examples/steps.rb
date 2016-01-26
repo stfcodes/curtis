@@ -6,9 +6,9 @@ Curtis.show do |screen|
   first = Curtis::View.new
   first.border
   first.move_cursor line: first.lines / 2
-  first.justify 'This is step 1.'
+  first.puts 'This is step 1.', h: :center
   first.cursor.newline!
-  first.justify 'Press any key...'
+  first.puts 'Press any key...', h: :center
   first.render
 
   Curtis::Input.get
@@ -19,9 +19,9 @@ Curtis.show do |screen|
   second = Curtis::View.new
   second.border
   second.move_cursor line: second.lines / 2
-  second.justify 'Step 2.'
+  second.puts 'Step 2.', h: :center
   second.cursor.newline!
-  second.justify 'Press any key to quit.'
+  second.puts 'Press any key to quit.', h: :center
   second.render
   Curtis::Input.get
 end
