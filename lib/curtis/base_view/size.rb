@@ -1,24 +1,18 @@
-require 'curtis/refinements/numeric'
-
 module Curtis
   class BaseView
     class Size
-      using NumericRefinements
-
       attr_reader :view
 
       def initialize(view)
         @view = view
       end
 
-      def lines(p: nil)
-        return lines_and_columns.first unless p
-        lines_and_columns.first.percent(p)
+      def lines
+        lines_and_columns.first
       end
 
-      def columns(p: nil)
-        return lines_and_columns.last unless p
-        lines_and_columns.last.percent(p)
+      def columns
+        lines_and_columns.last
       end
 
       def lines_and_columns

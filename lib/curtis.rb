@@ -3,7 +3,7 @@ require 'ncurses'
 require 'curtis/version'
 require 'curtis/base_view'
 require 'curtis/view'
-require 'curtis/keyboard'
+require 'curtis/input'
 
 module Curtis
   class << self
@@ -14,30 +14,44 @@ module Curtis
     end
     alias_method :configure, :config
 
-    def show(**options)
-      Ncurses.initscr
-      Ncurses.cbreak if config.cbreak
-      Ncurses.noecho if config.noecho
-      Ncurses.curs_set(0) if config.hide_cursor
-      screen.refresh
-      yield BaseView.new
+    def show
+      initialize_ncurses
+      yield screen
     ensure
-      Ncurses.endwin
+      close_ncurses
     end
 
     def screen
-      Ncurses.stdscr
+      @screen ||= BaseView.new(Ncurses.stdscr)
+    end
+
+    private
+
+    def initialize_ncurses
+      Ncurses.initscr
+
+      if config.interactive
+        Ncurses.stdscr.keypad(true)
+        Ncurses.cbreak
+        Ncurses.nonl
+        Ncurses.noecho
+      end
+
+      Ncurses.curs_set(0) if config.hide_cursor
+      Ncurses.stdscr.refresh
+    end
+
+    def close_ncurses
+      Ncurses.endwin
     end
   end
 
   class Configuration
-    attr_accessor :cbreak
-    attr_accessor :noecho
+    attr_accessor :interactive
     attr_accessor :hide_cursor
 
     def initialize
-      @cbreak      = true
-      @noecho      = true
+      @interactive = true
       @hide_cursor = true
     end
   end

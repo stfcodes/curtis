@@ -1,5 +1,5 @@
 module Curtis
-  module Keyboard
+  module Input
 
     MAX_CHAR = 255
     ENTER = 13
@@ -8,16 +8,16 @@ module Curtis
 
     module_function
 
-    def input
-      return translate_key_to_code(Ncurses.getch) unless block_given?
+    def get
+      return translate_key(Ncurses.getch) unless block_given?
 
-      while key = translate_key_to_code(Ncurses.getch)
+      while key = translate_key(Ncurses.getch)
         yield key
       end
     end
 
     # https://github.com/grosser/dispel/blob/master/lib/dispel/keyboard.rb
-    def translate_key_to_code(key)
+    def translate_key(key)
       case key
       # Movement
       when Ncurses::KEY_UP      then :up

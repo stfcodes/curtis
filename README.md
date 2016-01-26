@@ -34,10 +34,10 @@ Curtis.show do |screen|
 
   # Initialize a new View via block, and using fancy percentages
   lower_right = Curtis::View.new do |v|
-    v.lines   = v.parent.lines(p: 50)
-    v.columns = v.parent.columns(p: 50)
-    v.line    = v.parent.lines(p: 50)
-    v.column  = v.parent.columns(p: 50)
+    v.lines   = v.parent.lines / 2
+    v.columns = v.parent.columns / 2
+    v.line    = v.parent.lines / 2
+    v.column  = v.parent.columns / 2
   end
 
   # Fill the `lower_right` view with the letter 'R'
@@ -49,11 +49,11 @@ Curtis.show do |screen|
   # Actually show the contents of `lower_right`
   lower_right.render
 
-  screen.move_cursor line: screen.lines(p: 25)
+  screen.move_cursor line: screen.lines / 4
   screen.justify '[Q]uit!'
 
   # Press 'q' to stop the input loop
-  Curtis::Keyboard.input do |key|
+  Curtis::Input.get do |key|
     break if key == 'q'
   end
 end

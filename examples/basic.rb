@@ -3,7 +3,7 @@ require 'curtis'
 # The #show method is the starting point.
 # `screen` here is the standard screen, and is the #parent of other views.
 Curtis.show do |screen|
-  screen.justify 'Welcome to Curtis. A simple ncurses-ruby wrapper.'
+  screen.puts 'Welcome to Curtis. A simple ncurses-ruby wrapper.', h: :center
   screen.render
 
   # Initialize a new View via keyword arguments.
@@ -21,10 +21,10 @@ Curtis.show do |screen|
 
   # Initialize a new View via block, and using fancy percentages
   lower_right = Curtis::View.new do |v|
-    v.lines   = v.parent.lines(p: 50)
-    v.columns = v.parent.columns(p: 50)
-    v.line    = v.parent.lines(p: 50)
-    v.column  = v.parent.columns(p: 50)
+    v.lines   = v.parent.lines
+    v.columns = v.parent.columns
+    v.line    = v.parent.lines
+    v.column  = v.parent.columns
   end
 
   # Fill the `lower_right` view with the letter 'R'
@@ -36,11 +36,11 @@ Curtis.show do |screen|
   # Actually show the contents of `lower_right`
   lower_right.render
 
-  screen.move_cursor line: screen.lines(p: 25)
-  screen.justify '[Q]uit!'
+  screen.move_cursor line: screen.lines
+  screen.puts '[Q]uit!', h: :center
 
   # Press 'q' to stop the input loop
-  Curtis::Keyboard.input do |key|
+  Curtis::Input.get do |key|
     break if key == 'q'
   end
 end

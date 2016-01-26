@@ -11,7 +11,7 @@ Curtis.show do |screen|
   first.justify 'Press any key...'
   first.render
 
-  Curtis::Keyboard.input
+  Curtis::Input.get
   first.delwin
   screen.clear
   screen.render
@@ -23,5 +23,5 @@ Curtis.show do |screen|
   second.cursor.newline!
   second.justify 'Press any key to quit.'
   second.render
-  Curtis::Keyboard.input
+  Curtis::Input.get
 end

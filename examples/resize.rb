@@ -16,15 +16,14 @@ Curtis.show do |screen|
   end
 
   center.border
-  center.move_cursor line: center.lines / 2
   # Do the operation encolsed in the block every 100 milliseconds
   # in a different thread. #close ensures that the thread is stopped.
   center.render every: 0.1 do
-    center.justify Time.now.strftime('%H:%M:%S.%L')
+    center.puts Time.now.strftime('%H:%M:%S.%L'), h: :center, v: :center
   end
 
-  # Curtis::Keyboard.input with a block starts a loop
-  Curtis::Keyboard.input do |key|
+  # Curtis::Input.get with a block starts a loop
+  Curtis::Input.get do |key|
     break if key != :resize
 
     # Redraw the screen
@@ -37,9 +36,8 @@ Curtis.show do |screen|
     center.reposition
 
     center.border
-    center.move_cursor line: center.lines / 2
     center.render every: 0.1 do
-      center.justify Time.now.strftime('%H:%M:%S.%L')
+      center.puts Time.now.strftime('%H:%M:%S.%L'), h: :center, v: :center
     end
   end
 end
