@@ -68,7 +68,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## TODO
 
 * Tests (how? srlsy)
-* Keyboard handler
 * Add more Ncurses options
 * Improve readme
 
