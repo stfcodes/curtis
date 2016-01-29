@@ -15,7 +15,13 @@ module Curtis
     def_delegators :size,     :lines, :columns
     def_delegators :position, :line,  :column
 
-    def initialize(ncurses_window = Ncurses.stdscr)
+    class << self
+      def instance
+        @instance ||= self.new(Ncurses.stdscr)
+      end
+    end
+
+    def initialize(ncurses_window)
       unless ncurses_window.kind_of? Ncurses::WINDOW
         fail ArgumentError, 'Only Ncurses::WINDOW instances allowed.'
       end
@@ -35,7 +41,11 @@ module Curtis
       window.respond_to?(method_name) || super
     end
 
+    def setup
+    end
+
     def parent
+      setup
       window
     end
 

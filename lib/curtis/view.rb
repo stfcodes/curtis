@@ -16,19 +16,23 @@ module Curtis
     end
 
     def parent
-      @parent ||= self.class.superclass.new(Ncurses.stdscr)
+      BaseView.instance
     end
 
     def render(every: 0.04)
       clear_thread!
-      window.refresh unless block_given?
 
-      @thread = Thread.new do
-        loop do
-          yield self
-          window.refresh
-          sleep every
+      if block_given?
+        @thread = Thread.new do
+          loop do
+            yield self
+            window.refresh
+            sleep every
+          end
         end
+      else
+        setup
+        window.refresh
       end
     end
 
