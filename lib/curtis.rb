@@ -31,11 +31,12 @@ module Curtis
       Ncurses.initscr
 
       if config.interactive
-        Ncurses.stdscr.keypad(true)
         Ncurses.cbreak
         Ncurses.nonl
         Ncurses.noecho
       end
+
+      Ncurses.stdscr.keypad(true) if config.use_keypad
 
       Ncurses.curs_set(0) if config.hide_cursor
       Ncurses.stdscr.refresh
@@ -48,10 +49,12 @@ module Curtis
 
   class Configuration
     attr_accessor :interactive
+    attr_accessor :use_keypad
     attr_accessor :hide_cursor
 
     def initialize
       @interactive = true
+      @use_keypad  = false
       @hide_cursor = true
     end
   end
