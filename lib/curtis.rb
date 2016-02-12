@@ -1,5 +1,10 @@
-require 'ncurses'
+begin
+  require 'pry'
+  require 'binding_of_caller'
+rescue LoadError => e
+end
 
+require 'ncurses'
 require 'curtis/version'
 require 'curtis/base_view'
 require 'curtis/view'
