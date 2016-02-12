@@ -48,14 +48,17 @@ module Curtis
     end
 
     def close_ncurses
+      @screen = nil
       Ncurses.endwin
     end
   end
 
   class Configuration
-    attr_accessor :interactive
-    attr_accessor :use_keypad
-    attr_accessor :hide_cursor
+    ATTRIBUTES = %i(
+      interactive use_keypad hide_cursor
+    ).freeze
+
+    attr_accessor *ATTRIBUTES
 
     def initialize
       @interactive = true
