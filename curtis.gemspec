@@ -9,13 +9,11 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Stefan Rotariu"]
   spec.email         = ["stefan.rotariu@gmail.com"]
 
-  spec.summary       = %q{Extremely light wrapper around ncurses-ruby.}
+  spec.summary       = %q{Light wrapper around ncurses-ruby.}
   spec.homepage      = "https://github.com/shuriu/curtis"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'ncurses-ruby', '~> 1.2.4'
