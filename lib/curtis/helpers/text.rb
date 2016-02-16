@@ -26,6 +26,12 @@ module Curtis
         end
       end
 
+      def fill(character)
+        line  = character * size.columns
+        lines = Array.new(size.lines, line)
+        puts lines, column: 0, line: 0
+      end
+
       private
 
       def translate_text(text)

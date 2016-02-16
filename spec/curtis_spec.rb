@@ -5,15 +5,6 @@ describe Curtis do
     refute_nil Curtis::VERSION
   end
 
-  describe '.screen' do
-    it 'returns a wrapped instance of Ncurses.stdscr' do
-      Curtis.show do |screen|
-        Curtis.screen.must_be_kind_of Curtis::BaseView
-        Curtis.screen.window.must_equal Ncurses.stdscr
-      end
-    end
-  end
-
   describe '.show' do
     it 'yields with the standard screen argument' do
       has_screen = false

@@ -1,5 +1,5 @@
 module Curtis
-  class BaseView
+  class View
     class Position
       attr_reader :view
 
