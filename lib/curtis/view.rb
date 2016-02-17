@@ -69,27 +69,37 @@ module Curtis
           sleep(every)
         end
       end
+
+      self
     end
 
     def clear(also_thread: true)
       clear_thread! if also_thread
       window.clear
+      self
     end
 
     def resize(lines: nil, columns: nil)
       @lines   = lines   if lines
       @columns = columns if columns
       window.resize(*computed_dimensions)
+      self
     end
 
     def reposition(line: nil, column: nil)
       @line   = line   if line
       @column = column if column
       window.mvwin(*computed_coordinates)
+      self
     end
 
     def move_cursor(line: 0, column: 0)
       window.move(line, column)
+      self
+    end
+
+    def debug
+      Debugger.new(self)
     end
 
     def method_missing(method_name, *arguments, &block)
