@@ -34,6 +34,7 @@ module Curtis
     def initialize(ncurses_window = nil, **opts, &block)
       validate_window!(ncurses_window)
 
+      @name      = opts[:name]
       @lines     = opts.fetch(:lines)   { -> { parent.size.lines } }
       @columns   = opts.fetch(:columns) { -> { parent.size.columns } }
       @line      = opts.fetch(:line)    { 0 }

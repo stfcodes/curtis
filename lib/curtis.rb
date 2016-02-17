@@ -22,7 +22,7 @@ module Curtis
 
     def view(name, &block)
       return views[name] unless block_given?
-      views[name] = View.new(&block)
+      views[name] = View.new(name: name, &block)
     end
 
     def views
