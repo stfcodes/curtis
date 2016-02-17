@@ -15,10 +15,6 @@ module Curtis
         line_and_column.last
       end
 
-      def bottom
-
-      end
-
       def line_and_column
         line, column = [], []
         view.window.getbegyx(line, column)
